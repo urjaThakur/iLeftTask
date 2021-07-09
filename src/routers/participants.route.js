@@ -64,6 +64,7 @@ router.get("/participants/me", auth, async (req, res) => {
   }
 });
 
+//update a participant details
 router.patch("/participants/me", auth, async (req, res) => {
   const updates = Object.keys(req.body);
   const allowedUpdates = [
@@ -88,6 +89,7 @@ router.patch("/participants/me", auth, async (req, res) => {
   }
 });
 
+//delete the participant
 router.delete("/participants/me", auth, async (req, res) => {
   try {
     await req.participants.remove();
