@@ -55,9 +55,42 @@ router.get("/participants/getAll", auth, async (req, res) => {
   }
 });
 
-// get individual participant details
+// get logged in participant detail
 router.get("/participants/me", auth, async (req, res) => {
   try {
+    res.send(req.participants);
+  } catch (e) {
+    res.status(500).send(e);
+  }
+});
+
+router.patch("/participants/me", auth, async (req, res) => {
+  const updates = Object.keys(req.body);
+  const allowedUpdates = [
+    "firstName",
+    "lastName",
+    "email",
+    "phone",
+    "meetingId",
+  ];
+  const isValidUpdates = updates.every((update) =>
+    allowedUpdates.includes(update)
+  );
+  if (!isValidUpdates) {
+    res.status(400).send({ error: "Invalid updates" });
+  }
+  try {
+    updates.forEach((update) => (req.participants[update] = req.body[update]));
+    await req.participants.save();
+    res.send(req.participants);
+  } catch (e) {
+    res.status(400).send();
+  }
+});
+
+router.delete("/participants/me", auth, async (req, res) => {
+  try {
+    await req.participants.remove();
     res.send(req.participants);
   } catch (e) {
     res.status(500).send(e);
