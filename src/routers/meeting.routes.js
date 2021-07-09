@@ -18,7 +18,7 @@ router.post("/meeting/create", auth, async (req, res) => {
 router.get("/meeting/getAll", auth, async (req, res) => {
   try {
     const meeting = await Meeting.find({});
-    res.send(meeting);
+    res.status(200).send(meeting);
   } catch (e) {
     res.status(500).send(e);
   }
@@ -48,7 +48,7 @@ router.put("/meeting/:id", auth, async (req, res) => {
       } else if (!data) {
         res.send({ code: 400, message: "Not Updated" });
       } else {
-        res.send(data);
+        res.status(200).send(data);
       }
     }
   );
@@ -60,7 +60,7 @@ router.delete("/meeting/:id", auth, async (req, res) => {
     if (err) {
       res.send({ code: 400, message: err });
     } else {
-      res.send(docs);
+      res.status(200).send(docs);
     }
   });
 });

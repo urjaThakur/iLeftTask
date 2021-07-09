@@ -22,7 +22,7 @@ router.post("/meetingNotes/create", auth, async (req, res) => {
 router.get("/meetingNotes/all", auth, async (req, res) => {
   try {
     const notes = await Notes.find({});
-    res.send(notes);
+    res.status(200).send(notes);
   } catch (e) {
     res.status(500).send(e);
   }
@@ -34,7 +34,7 @@ router.get("/notes/:id", auth, async (req, res) => {
   if (!id) throw new Error("id is required");
   try {
     const notes = await Notes.find({ meetingId: id });
-    res.send(notes);
+    res.status(200).send(notes);
   } catch (e) {
     res.status(500).send(e);
   }

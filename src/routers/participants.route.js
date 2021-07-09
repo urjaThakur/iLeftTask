@@ -25,7 +25,7 @@ router.post("/participants/login", async (req, res) => {
       req.body.password
     );
     const token = await participants.generateAuthToken();
-    res.send({ participants, token });
+    res.status(200).send({ participants, token });
   } catch (e) {
     res.status(400).send();
   }
@@ -39,7 +39,7 @@ router.post("/participants/logout", auth, async (req, res) => {
     });
     await req.participants.save();
 
-    res.send();
+    res.status(200).send();
   } catch (e) {
     res.status(500).send();
   }
@@ -49,7 +49,7 @@ router.post("/participants/logout", auth, async (req, res) => {
 router.get("/participants/getAll", auth, async (req, res) => {
   try {
     const participants = await Participants.find({});
-    res.send(participants);
+    res.status(200).send(participants);
   } catch (e) {
     res.status(500).send(e);
   }
@@ -58,7 +58,7 @@ router.get("/participants/getAll", auth, async (req, res) => {
 // get logged in participant detail
 router.get("/participants/me", auth, async (req, res) => {
   try {
-    res.send(req.participants);
+    res.status(200).send(req.participants);
   } catch (e) {
     res.status(500).send(e);
   }
@@ -93,7 +93,7 @@ router.patch("/participants/me", auth, async (req, res) => {
 router.delete("/participants/me", auth, async (req, res) => {
   try {
     await req.participants.remove();
-    res.send(req.participants);
+    res.status(200).send(req.participants);
   } catch (e) {
     res.status(500).send(e);
   }
@@ -105,7 +105,7 @@ router.get("/getAllParticipantsByMeetingId/:id", auth, async (req, res) => {
   if (!id) throw new Error("id is required");
   try {
     const participants = await Participants.find({ meetingId: id });
-    res.send(participants);
+    res.status(200).send(participants);
   } catch (e) {
     res.status(500).send(e);
   }
