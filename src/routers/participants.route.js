@@ -7,7 +7,6 @@ const router = new express.Router();
 
 // Create a participant
 router.post("/participants/create", async (req, res) => {
-  console.log(req.body);
   const participants = new Participants(req.body);
   try {
     await participants.save();
@@ -95,6 +94,18 @@ router.delete("/participants/me", auth, async (req, res) => {
   try {
     await req.participants.remove();
     res.send(req.participants);
+  } catch (e) {
+    res.status(500).send(e);
+  }
+});
+
+// get all participants by meeting id
+router.get("/getAllParticipantsByMeetingId/:id", auth, async (req, res) => {
+  const id = req.params.id;
+  if (!id) throw new Error("id is required");
+  try {
+    const participants = await Participants.find({ meetingId: id });
+    res.send(participants);
   } catch (e) {
     res.status(500).send(e);
   }
