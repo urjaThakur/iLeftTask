@@ -83,7 +83,11 @@ router.patch("/participants/me", auth, async (req, res) => {
   try {
     updates.forEach((update) => (req.participants[update] = req.body[update]));
     await req.participants.save();
-    res.send(req.participants);
+    res.status(200).send({
+      code: 200,
+      message: "Participant Updated Successfully",
+      participant_updated: req.participants,
+    });
   } catch (e) {
     res.status(400).send();
   }
@@ -93,7 +97,10 @@ router.patch("/participants/me", auth, async (req, res) => {
 router.delete("/participants/me", auth, async (req, res) => {
   try {
     await req.participants.remove();
-    res.status(200).send(req.participants);
+    res.status(200).send({
+      message: "Participant deleted Successfully",
+      Participant_Deleted: req.participants,
+    });
   } catch (e) {
     res.status(500).send(e);
   }

@@ -46,9 +46,13 @@ router.put("/meeting/:id", auth, async (req, res) => {
       if (err) {
         res.send({ code: 500, error: err });
       } else if (!data) {
-        res.send({ code: 400, message: "Not Updated" });
+        res.send({ code: 400, message: "Not Updated, Meeting not found" });
       } else {
-        res.status(200).send(data);
+        res.status(200).send({
+          code: 200,
+          message: "Meeting Updated Successfully",
+          meeting_updated: data,
+        });
       }
     }
   );
@@ -60,7 +64,10 @@ router.delete("/meeting/:id", auth, async (req, res) => {
     if (err) {
       res.send({ code: 400, message: err });
     } else {
-      res.status(200).send(docs);
+      res.status(200).send({
+        message: "Meeting deleted Successfully",
+        meeting_Deleted: docs,
+      });
     }
   });
 });
