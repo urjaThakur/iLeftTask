@@ -33,7 +33,6 @@ const participantsSchema = new mongoose.Schema({
     required: true,
   },
   meetingId: { type: mongoose.Schema.ObjectId, ref: "Meeting" },
-
   tokens: [
     {
       token: {

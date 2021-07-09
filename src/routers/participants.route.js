@@ -7,6 +7,7 @@ const router = new express.Router();
 
 // Create a participant
 router.post("/participants/create", async (req, res) => {
+  console.log(req.body);
   const participants = new Participants(req.body);
   try {
     await participants.save();

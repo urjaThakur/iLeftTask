@@ -1,5 +1,6 @@
 const express = require("express");
 const Meeting = require("../models/meeting.model");
+const Participants = require("../models/participants.model");
 const auth = require("../middleware/auth");
 const ObjectId = require("mongoose").Types.ObjectId;
 const router = new express.Router();
@@ -64,6 +65,18 @@ router.delete("/meeting/:id", auth, async (req, res) => {
       res.send(docs);
     }
   });
+});
+
+// get all participants by meeting id
+router.get("/getAllParticipantsByMeetingId/:id", auth, async (req, res) => {
+  const id = req.params.id;
+  if (!id) throw new Error("id is required");
+  try {
+    const participants = await Participants.find({ meetingId: id });
+    res.send(participants);
+  } catch (e) {
+    res.status(500).send(e);
+  }
 });
 
 module.exports = router;
